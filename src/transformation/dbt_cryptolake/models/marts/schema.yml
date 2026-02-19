@@ -1,0 +1,58 @@
+# ============================================================
+# schema.yml — Tests y documentación de los modelos marts
+# ============================================================
+# Los tests genéricos de dbt se declaran junto a cada columna.
+# dbt genera y ejecuta la consulta SQL automáticamente.
+#
+# Tipos de tests genéricos:
+#   - not_null: Verifica que la columna no tiene valores NULL
+#   - unique: Verifica que no hay duplicados
+#   - accepted_values: Verifica que los valores están en una lista
+#   - relationships: Verifica integridad referencial (FK)
+#
+# Un test PASA si la consulta devuelve 0 filas.
+# Un test FALLA si la consulta devuelve 1 o más filas.
+# ============================================================
+
+version: 2
+
+models:
+  - name: fact_market_daily
+    description: "Tabla de hechos con métricas de mercado crypto diarias. Granularidad: 1 coin × 1 día."
+    columns:
+      - name: coin_id
+        description: "Identificador de la criptomoneda"
+        tests:
+          - not_null
+      - name: price_date
+        description: "Fecha del registro"
+        tests:
+          - not_null
+      - name: price_usd
+        description: "Precio en USD"
+        tests:
+          - not_null
+
+  - name: dim_coins
+    description: "Dimensión con estadísticas agregadas por criptomoneda (SCD Type 1)"
+    columns:
+      - name: coin_id
+        description: "Identificador único de la criptomoneda"
+        tests:
+          - unique
+          - not_null
+      - name: all_time_high
+        tests:
+          - not_null
+      - name: total_days_tracked
+        tests:
+          - not_null
+
+  - name: dim_dates
+    description: "Dimensión calendario con atributos temporales"
+    columns:
+      - name: date_day
+        description: "Fecha (clave primaria)"
+        tests:
+          - unique
+          - not_null

@@ -1,0 +1,19 @@
+# Seguridad y entornos
+.env
+.venv/
+venv/
+__pycache__/
+.DS_Store
+
+# Datos y logs
+docker/*/data/
+airflow-logs/
+logs/
+*.parquet
+*.log
+
+# dbt y otros
+target/
+dbt_packages/
+.terraform/
+*.tfstate
