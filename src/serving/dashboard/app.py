@@ -1,4 +1,4 @@
-﻿"""CryptoLake Streamlit dashboard (v3)."""
+"""CryptoLake Streamlit dashboard (v3)."""
 
 import os
 from datetime import date, timedelta
@@ -218,7 +218,10 @@ st.markdown(
     <div class="hero">
       <div class="hero-kicker">CRYPTOLAKE / MARKET TERMINAL</div>
       <p class="hero-title">Crypto Intelligence Dashboard</p>
-      <p class="hero-sub">Inspired by crypto market terminals: compact KPI cards, normalized comparisons, and sentiment overlays.</p>
+      <p class="hero-sub">
+        Inspired by crypto market terminals: compact KPI cards, normalized
+        comparisons, and sentiment overlays.
+      </p>
     </div>
     """,
     unsafe_allow_html=True,
@@ -278,8 +281,7 @@ with st.sidebar:
         default=default_compare or [selected_coin],
     )
     st.caption(
-        "Base 100 = todas empiezan en 100 al inicio del rango. "
-        "Si termina en 120, subio +20%."
+        "Base 100 = todas empiezan en 100 al inicio del rango. Si termina en 120, subio +20%."
     )
 
 if overview:

@@ -2,9 +2,10 @@
 
 import pytest
 
-pyspark = pytest.importorskip("pyspark")
-
-from src.quality.validators import CheckResult, CheckStatus
+try:
+    from src.quality.validators import CheckResult, CheckStatus
+except ModuleNotFoundError:
+    pytest.skip("pyspark no disponible en el entorno", allow_module_level=True)
 
 
 def test_check_result_to_dict():
