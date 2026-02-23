@@ -43,4 +43,5 @@ cryptolake:
       host: localhost
       port: 10000
       schema: gold
+      auth: NOSASL
       threads: 1

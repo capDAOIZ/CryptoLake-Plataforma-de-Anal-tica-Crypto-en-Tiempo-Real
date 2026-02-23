@@ -13,6 +13,8 @@ on:
         description: "Layer to validate (bronze/silver/gold/all)"
         required: false
         default: "all"
+  schedule:
+    - cron: "0 7 * * *"
 
 jobs:
   quality:

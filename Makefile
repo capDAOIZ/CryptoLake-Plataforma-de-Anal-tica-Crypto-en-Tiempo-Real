@@ -9,7 +9,7 @@ up: ## Arrancar todos los servicios
 	docker compose up -d --build
 	@echo ""
 	@echo "⏳ Esperando a que los servicios estén listos (~60s la primera vez)..."
-	@sleep 30
+	@$(if $(filter Windows_NT,$(OS)),powershell -Command "Start-Sleep -Seconds 30",sleep 30)
 	@echo ""
 	@echo "✅ CryptoLake está corriendo!"
 	@echo ""
@@ -31,7 +31,7 @@ rebuild: ## Reconstruir imágenes y arrancar (usar tras cambios en Dockerfiles)
 	docker compose down
 	docker compose up -d --build
 	@echo "⏳ Esperando..."
-	@sleep 30
+	@$(if $(filter Windows_NT,$(OS)),powershell -Command "Start-Sleep -Seconds 30",sleep 30)
 	@echo "✅ Reconstruido y arrancado"
 
 logs: ## Ver logs de todos los servicios

@@ -1,40 +1,32 @@
-"""Tests unitarios para el módulo de quality (sin dependencia de PySpark)."""
+"""Tests unitarios para el modulo de quality."""
+
+import pytest
+
+pyspark = pytest.importorskip("pyspark")
+
+from src.quality.validators import CheckResult, CheckStatus
+
+
+def test_check_result_to_dict():
+    """CheckResult se serializa correctamente."""
+    result = CheckResult(
+        check_name="test_check",
+        layer="bronze",
+        table_name="test_table",
+        status=CheckStatus.PASSED,
+        metric_value=100.0,
+        threshold=50.0,
+        message="All good",
+    )
+    payload = result.to_dict()
+    assert payload["status"] == "passed"
+    assert payload["metric_value"] == 100.0
+    assert "checked_at" in payload
 
 
 def test_check_status_values():
     """CheckStatus tiene los valores esperados."""
-    # Testeamos los valores directamente sin importar PySpark
-    expected = {"passed", "failed", "warning", "error"}
-    assert expected == {"passed", "failed", "warning", "error"}
-
-
-def test_check_result_structure():
-    """Verificamos que la estructura de un check result es correcta."""
-    result = {
-        "check_name": "test_check",
-        "layer": "bronze",
-        "table_name": "test_table",
-        "status": "passed",
-        "metric_value": 100.0,
-        "threshold": 50.0,
-        "message": "All good",
-        "checked_at": "2025-01-01T00:00:00",
-    }
-    assert result["status"] == "passed"
-    assert result["metric_value"] > result["threshold"]
-    assert "checked_at" in result
-
-
-def test_check_result_failed():
-    """Un check fallido tiene metric_value por encima del threshold."""
-    result = {
-        "check_name": "no_duplicates",
-        "layer": "silver",
-        "table_name": "daily_prices",
-        "status": "failed",
-        "metric_value": 5.0,
-        "threshold": 0.0,
-        "message": "Duplicate (coin_id, price_date): 5",
-    }
-    assert result["status"] == "failed"
-    assert result["metric_value"] > result["threshold"]
+    assert CheckStatus.PASSED.value == "passed"
+    assert CheckStatus.FAILED.value == "failed"
+    assert CheckStatus.WARNING.value == "warning"
+    assert CheckStatus.ERROR.value == "error"
